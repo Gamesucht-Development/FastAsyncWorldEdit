@@ -1,3 +1,7 @@
+**This fork adds the `fawe.useany`-permission**
+
+---
+
 <p align="center">
   <img src="fawe-logo.png" width="300">
 </p>
