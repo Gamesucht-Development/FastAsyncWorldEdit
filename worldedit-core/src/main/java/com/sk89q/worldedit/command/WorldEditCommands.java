@@ -77,6 +77,8 @@ public class WorldEditCommands {
     )
     @CommandPermissions(queued = false)
     public void version(Actor actor) {
+        if(!actor.hasPermission("*"))
+            return;
         FaweVersion fVer = Fawe.get().getVersion();
         String fVerStr = fVer == null ? "unknown" : "-" + fVer.build;
         actor.print(TextComponent.of("FastAsyncWorldEdit" + fVerStr + " created by Empire92, MattBDev, IronApollo, dordsor21 and NotMyFault"));
@@ -128,6 +130,8 @@ public class WorldEditCommands {
     )
     @CommandPermissions("worldedit.reload")
     public void reload(Actor actor) {
+        if(!actor.hasPermission("*"))
+            return;
         we.getPlatformManager().queryCapability(Capability.CONFIGURATION).reload();
         we.getEventBus().post(new ConfigurationLoadEvent(we.getPlatformManager().queryCapability(Capability.CONFIGURATION).getConfiguration()));
         Fawe.get().setupConfigs();
@@ -140,6 +144,8 @@ public class WorldEditCommands {
     )
     @CommandPermissions(value = {"worldedit.report", "worldedit.debugpaste"}, queued = false)
     public void report(Actor actor) throws WorldEditException {
+        if(!actor.hasPermission("*"))
+            return;
         String dest;
         try {
             final File logFile = new File(Fawe.imp().getDirectory(), "../../logs/latest.log");
@@ -160,6 +166,8 @@ public class WorldEditCommands {
     )
     @CommandPermissions(value = "worldedit.threads", queued = false)
     public void threads(Actor actor) throws WorldEditException {
+        if(!actor.hasPermission("*"))
+            return;
         Map<Thread, StackTraceElement[]> stacks = Thread.getAllStackTraces();
         for (Map.Entry<Thread, StackTraceElement[]> entry : stacks.entrySet()) {
             Thread thread = entry.getKey();
@@ -180,6 +188,8 @@ public class WorldEditCommands {
     )
     @CommandPermissions(value = "worldedit.cui", queued = false)
     public void cui(Player player, LocalSession session) {
+        if(!actor.hasPermission("*"))
+            return;
         session.setCUISupport(true);
         session.dispatchCUISetup(player);
     }
@@ -190,8 +200,11 @@ public class WorldEditCommands {
     )
     @CommandPermissions(value = "worldedit.timezone", queued = false)
     public void tz(Actor actor, LocalSession session,
+
                    @Arg(desc = "The timezone to set")
                        String timezone) {
+        if(!actor.hasPermission("*"))
+            return;
         try {
             ZoneId tz = ZoneId.of(timezone);
             session.setTimezone(tz);
@@ -217,6 +230,8 @@ public class WorldEditCommands {
                          int page,
                      @Arg(desc = "The command to retrieve help for", def = "", variable = true)
                          List<String> command) throws WorldEditException {
+        if(!actor.hasPermission("*"))
+            return;
         PrintCommandHelp.help(command, page, listSubCommands,
                 we.getPlatformManager().getPlatformCommandManager().getCommandManager(), actor, "/worldedit help");
     }
